@@ -10,7 +10,7 @@ params:
     #subtitle: |-
     # A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
     # AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: I am Drishti Goyal, a MAM'23 student at London Business School
+    title: Drishti Goyal
   blog: {}
   contact:
     address:
@@ -77,7 +77,7 @@ params:
     #    url: elements.html
     menu: Menu
    # subtitle: By HTML5 Up
-   # title: Forty
+    title: Drishti Goyal
   tiles:
     enable: yes
     showcase:
