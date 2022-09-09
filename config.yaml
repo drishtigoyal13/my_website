@@ -18,7 +18,7 @@ params:
         country: United Kingdom
         street: Great Portland St
         title: Address
-    #buttonClear: Clear
+    buttonClear: Clear
     buttonSend: Send message
     email:
       - email: dgoyal.mam2023@london.edu
@@ -34,13 +34,13 @@ params:
     heading: Page couldn't be found
     text: Please visit [this page](/)
   favicon: favicon.ico
-  # footer:
-  #  copyright: Company Name
-  #  enable: yes
-  #  quicklinks:
-  #    - alt: HTML5 UP
-  #      text: 'Design: '
-  #      url: https://www.html5up.net
+  footer:
+    copyright: Company Name
+    enable: yes
+    quicklinks:
+       - alt: HTML5 UP
+         text: 'Design: '
+         url: https://www.html5up.net
     social:
   #    - icon: fa-twitter
   #      label: Twitter
@@ -48,24 +48,24 @@ params:
   #    - icon: fa-facebook
   #      label: Facebook
   #      url: https://www.facebook.com
-      - icon: fa-instagram
-        label: Instagram
-        url: https://www.instagram.com/drishti13_/
-      - icon: fa-github
-        label: GitHub
-        url: https://github.com/drishtigoyal13
-      - icon: fa-linkedin
-        label: LinkedIn
-        url: https://www.linkedin.com/in/drishti-goyal/
+       - icon: fa-instagram
+         label: Instagram
+         url: https://www.instagram.com/drishti13_/
+       - icon: fa-github
+         label: GitHub
+         url: https://github.com/drishtigoyal13
+       - icon: fa-linkedin
+         label: LinkedIn
+         url: https://www.linkedin.com/in/drishti-goyal/
   image: ''
   name: Your name
   navigation:
-  #  button1:
-  #    - name: Get Started
-  #      url: blogs
-  # button2:
-  #    - name: Log In
-  #      url: '#'
+    button1:
+      - name: Get Started
+        url: blogs
+    button2:
+      - name: Log In
+        url: '#'
     links:
       - name: Home
         url: '#'
@@ -76,13 +76,13 @@ params:
     #  - name: Elements
     #    url: elements.html
     menu: Menu
-   # subtitle: By HTML5 Up
+    subtitle: By HTML5 Up
     title: Drishti Goyal
   tiles:
     enable: yes
     showcase:
       - image: pic01.jpg
-        #subtitle: Ipsum Dolor Sit Amet
+        subtitle: Ipsum Dolor Sit Amet
         title: About Me
         url: blogs/aliquam
       - image: pic02.jpg
