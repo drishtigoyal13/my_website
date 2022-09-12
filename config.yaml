@@ -21,6 +21,11 @@ params:
     form: 
         action: "https://formspree.io/f/mbjbdenj"
         method: "POST"
+    input:
+        type: "Email"
+        name: "Email"
+    textarea:
+        name: "Message"
     buttonClear: Clear
     buttonSend: Send message
     formEmail: "dgoyal.mam2023@london.edu"
