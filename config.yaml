@@ -35,12 +35,12 @@ params:
     text: Please visit [this page](/)
   favicon: favicon.ico
   footer:
-    copyright: Company Name
-    enable: yes
-    quicklinks:
-       - alt: HTML5 UP
-         text: 'Design: '
-         url: https://www.html5up.net
+    #copyright: Company Name
+    #enable: yes
+    #quicklinks:
+    #   - alt: HTML5 UP
+    #     text: 'Design: '
+    #     url: https://www.html5up.net
     social:
   #    - icon: fa-twitter
   #      label: Twitter
@@ -57,15 +57,15 @@ params:
        - icon: fa-linkedin
          label: LinkedIn
          url: https://www.linkedin.com/in/drishti-goyal/
-  image: ''
+  image: 
   name: Your name
   navigation:
-    button1:
-      - name: Get Started
-        url: blogs
-    button2:
-      - name: Log In
-        url: '#'
+    #button1:
+    #  - name: Get Started
+    #    url: blogs
+    #button2:
+    #  - name: Log In
+    #    url: '#'
     links:
       - name: Home
         url: '#'
@@ -76,25 +76,25 @@ params:
     #  - name: Elements
     #    url: elements.html
     menu: Menu
-    subtitle: By HTML5 Up
+   # subtitle: By HTML5 Up
     title: Drishti Goyal
   tiles:
     enable: yes
     showcase:
-      - image: pic01.jpg
-        subtitle: Ipsum Dolor Sit Amet
+      - image: taj_mahal.jpg
+        #subtitle: Ipsum Dolor Sit Amet
         title: About Me
-        url: blogs/aliquam
-      - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Tempus
-        url: blogs/tempus
+        url: blogs/about_me
+      - image: hat.png
+        #subtitle: Feugiat Amet Tempus
+        title: Resume
+        url: blogs/cv
       - image: pic03.jpg
-        subtitle: Lorem Etiam Nullam
+        subtitle: Project 1
         title: Magna
-        url: blogs/magna
+        url: blogs/risk_return
       - image: pic04.jpg
-        subtitle: Nisl Sed Aliquam
+        subtitle: Project 2
         title: Ipsum
         url: blogs/ipsum
       - image: pic05.jpg
