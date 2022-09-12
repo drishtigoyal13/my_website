@@ -1,0 +1,127 @@
+---
+title: "Analysis of Animal rescue incidents by the London Fire Brigade"
+date: "2022-09-12"
+description: "Analysis of Animals Rescued dataset, and creating visualisations to make inferences for the different animal groups that are rescued by the London Fire Brigade."
+draft: no
+image: animal.jpg
+keywords: ''
+slug: animal
+categories:
+- ''
+- ''
+---
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(gapminder)  # gapminder dataset
+library(here)
+library(janitor)
+```
+                     
+In this project, we will conduct an Exploratory Data Analysis of the Animals Rescued dataset. We will first understand the data at hand, look at summary statistics, and then create fun visualizations. Let's start!
+
+## Introduction
+[The London Fire Brigade](https://data.london.gov.uk/dataset/animal-rescue-incidents-attended-by-lfb) attends a range of non-fire incidents (which we call 'special services'). These 'special services' include assistance to animals that may be trapped or in distress. The data is provided from January 2009 and is updated monthly. A range of information is supplied for each incident including some location information (postcode, borough, ward), as well as the data/time of the incidents. We do not routinely record data about animal deaths or injuries.
+
+Please note that any cost included is a notional cost calculated based on the length of time rounded up to the nearest hour spent by Pump, Aerial and FRU appliances at the incident and charged at the current Brigade hourly rate.
+
+
+## Loading the Dataset
+```{r load_animal_rescue_data, warning=FALSE, message=FALSE}
+
+url <- "https://data.london.gov.uk/download/animal-rescue-incidents-attended-by-lfb/f43b485e-fb35-419c-aa7a-fa75676e5835/Animal%20Rescue%20incidents%20attended%20by%20LFB%20from%20Jan%202009.csv"
+animal_rescue <- read_csv(url, locale = locale(encoding = "CP1252")) %>% 
+  janitor::clean_names()
+glimpse(animal_rescue)
+
+```
+
+## Summarizing the Data
+```{r, instances_by_calendar_year}
+
+animal_rescue %>% 
+  dplyr::group_by(cal_year) %>% 
+  summarise(count=n())
+
+```
+
+The above table counts the number of incidents by year. We can see that 2011 had the most amount of incidents.
+
+
+```{r, animal_group_percentages}
+
+animal_rescue %>% 
+  group_by(animal_group_parent) %>% 
+  summarise(count = n()) %>% #group_by and summarise will produce a new column with the count in each animal group
+  mutate(percent = round(100*count/sum(count),2)) %>% # mutate adds a new column; here we calculate the percentage
+  arrange(desc(percent)) # arrange() sorts the data by percent.
+
+```
+
+The above table shows the count and % of incidents for every animal group. 1 strange thing to be noted is that `Cat` and `cat` have been put in 2 different rows, instead results should be combined into single record.
+
+
+```{r, parse_incident_cost,message=FALSE, warning=FALSE}
+
+typeof(animal_rescue$incident_notional_cost)
+
+animal_rescue <- animal_rescue %>% 
+  mutate(incident_notional_cost = parse_number(incident_notional_cost))
+typeof(animal_rescue$incident_notional_cost)
+
+```
+
+We change the datatype of `incidental_notional_cost` from character to double so that we can perform calculations on the variable.
+
+
+```{r, stats_on_incident_cost,message=FALSE, warning=FALSE}
+
+animal_rescue %>% 
+  
+  # group by animal_group_parent
+  group_by(animal_group_parent) %>% 
+  
+  # filter resulting data, so each group has at least 6 observations
+  filter(n()>6) %>% 
+  
+  # we use na.rm=TRUE to make sure we remove any NAs, or cases where we do not have the incident cos
+  summarise(mean_incident_cost = mean (incident_notional_cost, na.rm=TRUE),
+            median_incident_cost = median (incident_notional_cost, na.rm=TRUE),
+            sd_incident_cost = sd (incident_notional_cost, na.rm=TRUE),
+            min_incident_cost = min (incident_notional_cost, na.rm=TRUE),
+            max_incident_cost = max (incident_notional_cost, na.rm=TRUE),
+            count = n()) %>%
+  
+  # sort the resulting data in descending order. You choose whether to sort by count or mean cost.
+  arrange(desc(count))
+
+```
+
+We summarize the incident costs to find the mean, median, standard deviation, minimum, maximum and net count. `Cat` has the highest mean incident cost. The mean and median gives us a basic idea on what the incident notional cost is for a particular animal group parent. However,a huge difference in the mean and median depicts that there are outliers in that particular group. For example, horses have the maximum mean and median incident cost but there is a huge gap between the 2 values suggesting that outliers exist. Same can be seen in cows.
+
+
+
+## Visualizing the Data
+```{r, plots_on_incident_cost_by_animal_group,message=FALSE, warning=FALSE}
+
+# base_plot
+base_plot <- animal_rescue %>% 
+  group_by(animal_group_parent) %>% 
+  filter(n()>6) %>% 
+  ggplot(aes(x=incident_notional_cost))+
+  facet_wrap(~animal_group_parent, scales = "free")+
+  theme_bw()
+base_plot + geom_histogram()
+base_plot + geom_density()
+base_plot + geom_boxplot()
+base_plot + stat_ecdf(geom = "step", pad = FALSE) +
+  scale_y_continuous(labels = scales::percent)
+
+```
+
+We plot 4 different types of graphs depicting the frequency/ density of incident notional cost i.e. histogram, density plot, box plot and emperical distribution function. The graph that best depicts variability is the box plot because it shows the outliers, median, Q1 and Q3 from which we can interpret the distribution of values easily.
+
+
+## Analysis and Interpretation
+Looking at the graphs, we can see that horses and cows are the most expensive to rescue on average. Horses however have a huge amount of variation and their cost can go up to more than 3000. Animals like cats, deer, dogs, fox, and unknown wild animals usually have low incident costs, but in some cases they can go upto more than 2000. The patterns of the different animal groups vary, for example the hamsters, squirrels, sheeps, ferrets, rabbits, snakes and cows have very minimal outliers and majorly stick to their group. Animal groups like birds, deers, dogs, fox, cat, horse and unknown wild animals have a huge number of outliers so it would be a bit difficult to predict their notional cost. Another pattern that can be seen as animals like ferrets and rabbits have huge IQR, whereas animals like deer, dogs and fox have minimal IQR.
+

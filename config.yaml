@@ -69,7 +69,7 @@ params:
     links:
       - name: Home
         url: '#'
-      - name: Blogs
+      - name: Projects
         url: blogs
     #  - name: Generic Blog
     #    url: blogs/ipsum
@@ -97,10 +97,10 @@ params:
         subtitle: More about Project 2
         title: Rent Analysis
         url: blogs/rent
-      - image: pic05.jpg
+      - image: animal.jpg
         subtitle: More about Project 3
-        title: Consequat
-        url: blogs/ipsum
+        title: Animal Rescue Analysis
+        url: blogs/animal
       - image: pic06.jpg
         subtitle: Feugiat Amet Tempus
         title: Etiam

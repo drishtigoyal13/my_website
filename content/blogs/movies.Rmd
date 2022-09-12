@@ -3,7 +3,7 @@ title: "Analysis of movies- IMDB dataset"
 date: "2022-09-12"
 description: "Analysis of IMDB dataset, and creating visualisations to make inferences for the 2961 movies in the dataset."
 draft: no
-image: spices.jpg
+image: movie.jpg
 keywords: ''
 slug: movies
 categories:
