@@ -7,8 +7,8 @@ disqusShortname: ''
 params:
   banner:
     buttonText: Get Started
-    #subtitle: |-
-    # A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
+    subtitle: |-
+      This is my portfolio website with all key information. Welcome to my world!
     # AND RELEASED UNDER THE CREATIVE COMMONS.
     title: Drishti Goyal
   blog: {}
@@ -77,7 +77,7 @@ params:
     #    url: elements.html
     menu: Menu
    # subtitle: By HTML5 Up
-    title: Drishti Goyal
+    title: Drishti Goyal's Portfolio Website
   tiles:
     enable: yes
     showcase:
@@ -96,7 +96,7 @@ params:
       - image: pic04.jpg
         subtitle: Project 2
         title: Ipsum
-        url: blogs/ipsum
+        url: blogs/movies
       - image: pic05.jpg
         subtitle: Ipsum Dolor Sit Amet
         title: Consequat

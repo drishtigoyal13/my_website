@@ -1,0 +1,180 @@
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2022-09-12"
+description: Analysis of movies- IMDB dataset # the title that will show up once someone gets to this page
+draft: false
+image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
+
+keywords: ""
+slug: movies # slug is the shorthand URL address... no spaces plz
+title: Analysis of movies- IMDB dataset
+---
+  
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(rvest)    # scrape websites
+library(purrr)  
+library(ggrepel)
+library(readr)
+```
+
+In this project, we will conduct an Exploratory Data Analysis of the IMDB movies dataset. We will first understand the data at hand, look at summary statistics, and then create fun visualizations. Let's start!
+
+
+
+## Loading the data
+We will look at a subset sample of movies, taken from the [Kaggle IMDB 5000 movie dataset](https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset)
+
+```{r,load_movies, warning=FALSE, message=FALSE}
+
+#movies <- vroom::vroom(here::here("data","movies.csv"))
+movies <- read_csv(here::here("data","movies.csv"))
+movies
+
+```
+
+Besides the obvious variables of `title`, `genre`, `director`, `year`, and `duration`, the rest of the variables are as follows:
+
+-   `gross` : The gross earnings in the US box office, not adjusted for inflation
+-   `budget`: The movie's budget
+-   `cast_facebook_likes`: the number of facebook likes cast memebrs received
+-   `votes`: the number of people who voted for (or rated) the movie in IMDB
+-   `reviews`: the number of reviews for that movie
+-   `rating`: IMDB average rating
+
+
+
+## Inspecting the data
+
+```{r, inspecting}
+
+skimr::skim(movies)
+
+```
+As we observe from above, there are no missing values in any of the columns.
+
+
+## Summarizing the data to gain insights from the dataset
+
+```{r, no of movies}
+
+movies %>%
+  count(genre) %>%
+  arrange(desc(n)) #sort the genres in descending order on the basis of count
+
+```
+As observed, in the IMDB dataset, most of the movies are of Comedy genre - 848, and the least is Thriller - 1
+
+
+```{r, return on budget}
+
+movies %>%
+  group_by(genre) %>%
+  summarise(
+    avg_gross_earn = mean(gross), 
+    avg_gross_budget = mean(budget)) %>%
+  mutate(return_on_budget = avg_gross_earn/avg_gross_budget) %>% #calculate $ made per $ spent
+  arrange(desc(return_on_budget))
+
+```
+We see that Musical movies make the most amount of profit as they have the highest `return_on_budget`. If you ever want to be a director, you know which type of movie to make xD
+
+
+```{r, top 15 directors}
+
+movies %>%
+  group_by(director) %>%
+  summarise(
+    gross_rev = sum(gross), 
+    mean_gross_rev = mean(gross), 
+    median_gross_rev = median(gross), 
+    std_gross_rev = StdDev(gross)) %>%
+  slice_max(order_by = gross_rev, n=15) #deriving top 15 directors by gross revenue
+
+```
+This table shows the statistics for the top 15 directors who created the highest gross revenue on the box office. 
+
+
+## Visualizing the data
+
+```{r, gross_on_fblikes}
+
+movies %>%
+  ggplot(mapping=aes(x=gross, y=cast_facebook_likes)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + #create line of best fit
+  labs(
+    title = "Facebook Likes vs Gross Earnings at Box Office",
+    x = "Gross Earnings",
+    y = "Facebook Likes received by Cast"
+  ) +
+  theme_bw(base_size = 14)
+
+```
+There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.
+
+
+```{r, gross_on_budget}
+
+movies %>%
+  ggplot(mapping=aes(x=budget, y=gross)) +
+  geom_smooth(method = "lm", se = FALSE) +  #create line of best fit
+  labs(
+    title = "Scatterplot for Gross Earnings vs Budget",
+    x = "Budget",
+    y = "Gross Earnings"
+  ) +
+  geom_point() +
+  theme_bw(base_size = 14)
+
+
+```
+The scatter plot shows that there is a positive correlation between budgets and gross earnings, which can be because big budgets means big money for special effects, marketing and larger distribution world-wide, which attracts more audience. Nothing can be a bigger proof of this than Avatar!
+
+
+
+```{r, gross_on_rating}
+
+movies %>%
+  ggplot(mapping=aes(x=rating, y=gross)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) + #create line of best fit
+  labs(
+    title = "Scatterplot for Gross vs Ratings per Genre",
+    x = "IMDB Ratings",
+    y = "Gross Earnings"
+  ) +
+  facet_wrap(~genre) +
+  theme_bw(base_size = 14)
+
+```
+For some of the genres, like `action` and `adventure`, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like `thriller` and `western`, we don't have enough data make an educated statement of the relationship between the two variables.
+
+The strange thing is that `documentary` and `sci-fi` have a declining line of best fit, which shows a slight negative correlation.
