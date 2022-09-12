@@ -1,15 +1,14 @@
 ---
-categories:  
-- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
-- ""
+title: "Analysis of movies- IMDB dataset"
 date: "2022-09-12"
-description: Analysis of movies- IMDB dataset # the title that will show up once someone gets to this page
-draft: false
-image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
-
-keywords: ""
-slug: movies # slug is the shorthand URL address... no spaces plz
-title: Analysis of movies- IMDB dataset
+description: "Analysis of movies- IMDB dataset"
+draft: no
+image: spices.jpg
+keywords: ''
+slug: movies
+categories:
+- ''
+- ''
 ---
   
 
