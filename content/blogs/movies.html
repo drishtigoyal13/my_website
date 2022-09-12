@@ -1,7 +1,7 @@
 ---
 title: "Analysis of movies- IMDB dataset"
 date: "2022-09-12"
-description: "Analysis of movies- IMDB dataset"
+description: "Analysis of IMDB dataset, and creating visualisations to make inferences for the 2961 movies in the dataset."
 draft: no
 image: spices.jpg
 keywords: ''
@@ -17,8 +17,7 @@ categories:
 <div id="loading-the-data" class="section level2">
 <h2>Loading the data</h2>
 <p>We will look at a subset sample of movies, taken from the <a href="https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset">Kaggle IMDB 5000 movie dataset</a></p>
-<pre class="r"><code>#movies &lt;- vroom::vroom(here::here(&quot;data&quot;,&quot;movies.csv&quot;))
-movies &lt;- read_csv(here::here(&quot;data&quot;,&quot;movies.csv&quot;))
+<pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;,&quot;movies.csv&quot;))
 movies</code></pre>
 <pre><code>## # A tibble: 2,961 × 11
 ##    title genre direc…¹  year durat…²  gross budget cast_…³  votes reviews rating
@@ -381,8 +380,8 @@ movies</code></pre>
     y = &quot;Facebook Likes received by Cast&quot;
   ) +
   theme_bw(base_size = 14)</code></pre>
-<p><img src="/blogs/movies_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" />
-There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.</p>
+<p><img src="/blogs/movies_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.</p>
 <pre class="r"><code>movies %&gt;%
   ggplot(mapping=aes(x=budget, y=gross)) +
   geom_smooth(method = &quot;lm&quot;, se = FALSE) +  #create line of best fit
@@ -393,8 +392,8 @@ There is a common assumption that the number of facebook likes depicts the popul
   ) +
   geom_point() +
   theme_bw(base_size = 14)</code></pre>
-<p><img src="/blogs/movies_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" />
-The scatter plot shows that there is a positive correlation between budgets and gross earnings, which can be because big budgets means big money for special effects, marketing and larger distribution world-wide, which attracts more audience. Nothing can be a bigger proof of this than Avatar!</p>
+<p><img src="/blogs/movies_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>The scatter plot shows that there is a positive correlation between budgets and gross earnings, which can be because big budgets means big money for special effects, marketing and larger distribution world-wide, which attracts more audience. Nothing can be a bigger proof of this than Avatar!</p>
 <pre class="r"><code>movies %&gt;%
   ggplot(mapping=aes(x=rating, y=gross)) +
   geom_point() + 
@@ -406,7 +405,7 @@ The scatter plot shows that there is a positive correlation between budgets and 
   ) +
   facet_wrap(~genre) +
   theme_bw(base_size = 14)</code></pre>
-<p><img src="/blogs/movies_files/figure-html/gross_on_rating-1.png" width="648" style="display: block; margin: auto;" />
-For some of the genres, like <code>action</code> and <code>adventure</code>, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like <code>thriller</code> and <code>western</code>, we don’t have enough data make an educated statement of the relationship between the two variables.</p>
+<p><img src="/blogs/movies_files/figure-html/gross_on_rating-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>For some of the genres, like <code>action</code> and <code>adventure</code>, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like <code>thriller</code> and <code>western</code>, we don’t have enough data make an educated statement of the relationship between the two variables.</p>
 <p>The strange thing is that <code>documentary</code> and <code>sci-fi</code> have a declining line of best fit, which shows a slight negative correlation.</p>
 </div>

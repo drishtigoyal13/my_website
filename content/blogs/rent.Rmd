@@ -1,0 +1,169 @@
+---
+title: "Analysis of Rent in Bay Area"
+date: "2022-09-12"
+description: "Analysis of the rent dataset, and creating visualisations to make inferences for rents in the Bay Area from 2000 to 2018 "
+draft: no
+image: spices.jpg
+keywords: ''
+slug: rent
+categories:
+- ''
+- ''
+---
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+```
+In this project, we will conduct an Exploratory Data Analysis of the rent dataset. We will first understand the data at hand, look at summary statistics, and then create fun visualizations. Let's start!
+
+
+## Data Dictionary
+
+| variable    | class     | description           |
+|-------------|-----------|-----------------------|
+| post_id     | character | Unique ID             |
+| date        | double    | date                  |
+| year        | double    | year                  |
+| nhood       | character | neighborhood          |
+| city        | character | city                  |
+| county      | character | county                |
+| price       | double    | price in USD          |
+| beds        | double    | n of beds             |
+| baths       | double    | n of baths            |
+| sqft        | double    | square feet of rental |
+| room_in_apt | double    | room in apartment     |
+| address     | character | address               |
+| lat         | double    | latitude              |
+| lon         | double    | longitude             |
+| title       | character | title of listing      |
+| descr       | character | description           |
+| details     | character | additional details    |
+
+
+
+## Loading the data
+```{r, rerieving data}
+
+rent <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-07-05/rent.csv')
+
+```
+
+
+## Inspecting the data
+```{r skim_data}
+
+skimr::skim(rent)
+
+```
+      
+There are two variable types - character and numeric. `Date` column should be of the date data type but it is double.Columns have missing value, `descr` has the most - 197542.
+              
+
+## Creating Visualizations for the data
+```{r top_cities}
+
+rent %>%
+  group_by(city) %>%
+  summarize(city_count = count(city)) %>%
+  mutate(percent_city = city_count/sum(city_count))%>%
+  slice_max(order_by = percent_city,n=20) %>% #derived the top 20
+  ggplot(
+    aes(
+      x=percent_city,
+      y=fct_reorder(city,percent_city) #reordered city based on % of listings
+      )
+    ) + 
+  geom_col() +
+  scale_x_continuous(labels = scales::percent_format(),) +
+  labs(
+    title="% of Craigslist listings, 2000-2018", 
+    x = "% Listings",
+    y = "City") +
+  theme_bw(base_size = 14)
+
+```
+                             
+The above plot shows the top 20 cities in terms of % of classifieds between 2000-2018. We can clearly see that San Francisco accounts for the maximum listings.
+
+
+```{r sf_median_prices}
+
+rent %>%
+  filter(city=="san francisco",beds<=3) %>%
+  group_by(beds,year) %>%
+  summarize(median_price=median(price)) %>%
+  ggplot(aes(x=year,y=median_price,color=factor(beds))) + #setting colour for no. of beds
+  geom_line() +
+  facet_wrap(~beds,ncol=4) + #ncol is used to display the graphs in one line
+  labs(
+    title = "0 to 3-bed listings - San Francisco, 2000-2018",
+    x = "Year",
+    y = "Median price") +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "none") # to remove the legend
+
+```
+                   
+The above plot shows the evolution of median prices in San Francisco for 0, 1, 2, and 3 bedrooms listings.
+
+
+                    
+```{r spirit_plot}
+
+top <- rent %>%
+      count(city) %>%
+      slice_max(order_by = n, n=12) #derive the top 12 cities
+
+vec <- c(top) #creating a vector of the top 12 cities
+
+rent %>%
+  filter(city == vec$city, beds==1) %>% #filtering the cities in the vector
+  group_by(year, city) %>%
+  summarise(median_price = median(price)) %>%
+  ggplot(
+    top,  
+    mapping=aes(x=year, y=median_price, colour = factor(city))) +
+  geom_line() +
+  facet_wrap(~city) +
+  labs(
+    title = "Rental prices for 1-bedroom flats in the Bay Area",
+    x = "Year",
+    y = "Median Price "
+  ) +
+  theme_bw(base_size = 14) + 
+  theme(legend.position = "none") 
+  
+           
+```
+                           
+The above plot shows median rental prices for the top 12 cities in the Bay area. 
+
+
+
+## Analysis and Interpretation
+When looking at the rental prices for 1 bedroom apartments in the Bay Area, we see a clear trend for all the locations. There is a clear rise in rental prices over a period of almost 20 years (2000-2018), with certain areas seeing a larger increase than others, but most areas seeing the rent prices double. Interestingly, it seems as if major social and economic events are reflected in the rental prices. For example, there was a small dip in rental prices around 2002. This is most likely because of the dot com crash that occurred two years before, which significantly impacted Silicon Valley and the Bay Area.
+
+Similarly, a large drop can be noted around 2010 which is most likely because the continued negative effects of the financial crisis. Lastly, for some areas, with Palo Alto leading the way, we can see a sharp drop around 2015. There are no obvious external factors that can explain this drop and there for we could speculate that the large rise in prices the years before were brought back down with a correction.
+

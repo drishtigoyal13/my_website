@@ -1,7 +1,7 @@
 ---
 title: "Analysis of movies- IMDB dataset"
 date: "2022-09-12"
-description: "Analysis of movies- IMDB dataset"
+description: "Analysis of IMDB dataset, and creating visualisations to make inferences for the 2961 movies in the dataset."
 draft: no
 image: spices.jpg
 keywords: ''
@@ -11,7 +11,6 @@ categories:
 - ''
 ---
   
-
 ```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
@@ -27,7 +26,6 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 ```
-
 ```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
 library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
 library(mosaic)
@@ -53,7 +51,6 @@ We will look at a subset sample of movies, taken from the [Kaggle IMDB 5000 movi
 
 ```{r,load_movies, warning=FALSE, message=FALSE}
 
-#movies <- vroom::vroom(here::here("data","movies.csv"))
 movies <- read_csv(here::here("data","movies.csv"))
 movies
 
@@ -70,6 +67,8 @@ Besides the obvious variables of `title`, `genre`, `director`, `year`, and `dura
 
 
 
+      
+          
 ## Inspecting the data
 
 ```{r, inspecting}
@@ -79,7 +78,9 @@ skimr::skim(movies)
 ```
 As we observe from above, there are no missing values in any of the columns.
 
-
+          
+         
+              
 ## Summarizing the data to gain insights from the dataset
 
 ```{r, no of movies}
@@ -91,6 +92,8 @@ movies %>%
 ```
 As observed, in the IMDB dataset, most of the movies are of Comedy genre - 848, and the least is Thriller - 1
 
+           
+             
 
 ```{r, return on budget}
 
@@ -106,6 +109,8 @@ movies %>%
 We see that Musical movies make the most amount of profit as they have the highest `return_on_budget`. If you ever want to be a director, you know which type of movie to make xD
 
 
+              
+             
 ```{r, top 15 directors}
 
 movies %>%
@@ -121,6 +126,8 @@ movies %>%
 This table shows the statistics for the top 15 directors who created the highest gross revenue on the box office. 
 
 
+              
+                              
 ## Visualizing the data
 
 ```{r, gross_on_fblikes}
@@ -137,6 +144,7 @@ movies %>%
   theme_bw(base_size = 14)
 
 ```
+                                  
 There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.
 
 
@@ -155,6 +163,7 @@ movies %>%
 
 
 ```
+                               
 The scatter plot shows that there is a positive correlation between budgets and gross earnings, which can be because big budgets means big money for special effects, marketing and larger distribution world-wide, which attracts more audience. Nothing can be a bigger proof of this than Avatar!
 
 
@@ -174,6 +183,7 @@ movies %>%
   theme_bw(base_size = 14)
 
 ```
+                                     
 For some of the genres, like `action` and `adventure`, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like `thriller` and `western`, we don't have enough data make an educated statement of the relationship between the two variables.
 
 The strange thing is that `documentary` and `sci-fi` have a declining line of best fit, which shows a slight negative correlation.

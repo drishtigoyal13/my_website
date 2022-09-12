@@ -82,23 +82,23 @@ params:
     enable: yes
     showcase:
       - image: taj_mahal.jpg
-        #subtitle: Ipsum Dolor Sit Amet
+        subtitle: More about me
         title: About Me
         url: blogs/about_me
       - image: hat.png
-        #subtitle: Feugiat Amet Tempus
+        subtitle: More about my academic and career path
         title: Resume
         url: blogs/cv
-      - image: pic03.jpg
-        subtitle: Project 1
-        title: Magna
-        url: blogs/risk_return
-      - image: pic04.jpg
-        subtitle: Project 2
-        title: Ipsum
+      - image: movie.jpg
+        subtitle: More about Project 1
+        title: Movies Analysis
         url: blogs/movies
+      - image: rent_1.jpg
+        subtitle: More about Project 2
+        title: Rent Analysis
+        url: blogs/rent
       - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
+        subtitle: More about Project 3
         title: Consequat
         url: blogs/ipsum
       - image: pic06.jpg

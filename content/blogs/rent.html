@@ -1,0 +1,489 @@
+---
+title: "Analysis of Rent in Bay Area"
+date: "2022-09-12"
+description: "Analysis of the rent dataset, and creating visualisations to make inferences for rents in the Bay Area from 2000 to 2018 "
+draft: no
+image: spices.jpg
+keywords: ''
+slug: rent
+categories:
+- ''
+- ''
+---
+
+
+
+<p>In this project, we will conduct an Exploratory Data Analysis of the rent dataset. We will first understand the data at hand, look at summary statistics, and then create fun visualizations. Let’s start!</p>
+<div id="data-dictionary" class="section level2">
+<h2>Data Dictionary</h2>
+<table>
+<thead>
+<tr class="header">
+<th>variable</th>
+<th>class</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>post_id</td>
+<td>character</td>
+<td>Unique ID</td>
+</tr>
+<tr class="even">
+<td>date</td>
+<td>double</td>
+<td>date</td>
+</tr>
+<tr class="odd">
+<td>year</td>
+<td>double</td>
+<td>year</td>
+</tr>
+<tr class="even">
+<td>nhood</td>
+<td>character</td>
+<td>neighborhood</td>
+</tr>
+<tr class="odd">
+<td>city</td>
+<td>character</td>
+<td>city</td>
+</tr>
+<tr class="even">
+<td>county</td>
+<td>character</td>
+<td>county</td>
+</tr>
+<tr class="odd">
+<td>price</td>
+<td>double</td>
+<td>price in USD</td>
+</tr>
+<tr class="even">
+<td>beds</td>
+<td>double</td>
+<td>n of beds</td>
+</tr>
+<tr class="odd">
+<td>baths</td>
+<td>double</td>
+<td>n of baths</td>
+</tr>
+<tr class="even">
+<td>sqft</td>
+<td>double</td>
+<td>square feet of rental</td>
+</tr>
+<tr class="odd">
+<td>room_in_apt</td>
+<td>double</td>
+<td>room in apartment</td>
+</tr>
+<tr class="even">
+<td>address</td>
+<td>character</td>
+<td>address</td>
+</tr>
+<tr class="odd">
+<td>lat</td>
+<td>double</td>
+<td>latitude</td>
+</tr>
+<tr class="even">
+<td>lon</td>
+<td>double</td>
+<td>longitude</td>
+</tr>
+<tr class="odd">
+<td>title</td>
+<td>character</td>
+<td>title of listing</td>
+</tr>
+<tr class="even">
+<td>descr</td>
+<td>character</td>
+<td>description</td>
+</tr>
+<tr class="odd">
+<td>details</td>
+<td>character</td>
+<td>additional details</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="loading-the-data" class="section level2">
+<h2>Loading the data</h2>
+<pre class="r"><code>rent &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-07-05/rent.csv&#39;)</code></pre>
+</div>
+<div id="inspecting-the-data" class="section level2">
+<h2>Inspecting the data</h2>
+<pre class="r"><code>skimr::skim(rent)</code></pre>
+<table>
+<caption>(#tab:skim_data)Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">rent</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">200796</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">17</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">8</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="13%" />
+<col width="18%" />
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">post_id</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">9</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">200796</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">nhood</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">4</td>
+<td align="right">43</td>
+<td align="right">0</td>
+<td align="right">167</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">city</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">5</td>
+<td align="right">19</td>
+<td align="right">0</td>
+<td align="right">104</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">county</td>
+<td align="right">1394</td>
+<td align="right">0.99</td>
+<td align="right">4</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">address</td>
+<td align="right">196888</td>
+<td align="right">0.02</td>
+<td align="right">1</td>
+<td align="right">38</td>
+<td align="right">0</td>
+<td align="right">2869</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">title</td>
+<td align="right">2517</td>
+<td align="right">0.99</td>
+<td align="right">2</td>
+<td align="right">298</td>
+<td align="right">0</td>
+<td align="right">184961</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">descr</td>
+<td align="right">197542</td>
+<td align="right">0.02</td>
+<td align="right">13</td>
+<td align="right">16975</td>
+<td align="right">0</td>
+<td align="right">3025</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">details</td>
+<td align="right">192780</td>
+<td align="right">0.04</td>
+<td align="right">4</td>
+<td align="right">595</td>
+<td align="right">0</td>
+<td align="right">7667</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="8%" />
+<col width="12%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2.01e+07</td>
+<td align="right">44694.07</td>
+<td align="right">2.00e+07</td>
+<td align="right">2.01e+07</td>
+<td align="right">2.01e+07</td>
+<td align="right">2.01e+07</td>
+<td align="right">2.02e+07</td>
+<td align="left">▁▇▁▆▃</td>
+</tr>
+<tr class="even">
+<td align="left">year</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2.01e+03</td>
+<td align="right">4.48</td>
+<td align="right">2.00e+03</td>
+<td align="right">2.00e+03</td>
+<td align="right">2.01e+03</td>
+<td align="right">2.01e+03</td>
+<td align="right">2.02e+03</td>
+<td align="left">▁▇▁▆▃</td>
+</tr>
+<tr class="odd">
+<td align="left">price</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2.14e+03</td>
+<td align="right">1427.75</td>
+<td align="right">2.20e+02</td>
+<td align="right">1.30e+03</td>
+<td align="right">1.80e+03</td>
+<td align="right">2.50e+03</td>
+<td align="right">4.00e+04</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">beds</td>
+<td align="right">6608</td>
+<td align="right">0.97</td>
+<td align="right">1.89e+00</td>
+<td align="right">1.08</td>
+<td align="right">0.00e+00</td>
+<td align="right">1.00e+00</td>
+<td align="right">2.00e+00</td>
+<td align="right">3.00e+00</td>
+<td align="right">1.20e+01</td>
+<td align="left">▇▂▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">baths</td>
+<td align="right">158121</td>
+<td align="right">0.21</td>
+<td align="right">1.68e+00</td>
+<td align="right">0.69</td>
+<td align="right">1.00e+00</td>
+<td align="right">1.00e+00</td>
+<td align="right">2.00e+00</td>
+<td align="right">2.00e+00</td>
+<td align="right">8.00e+00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">sqft</td>
+<td align="right">136117</td>
+<td align="right">0.32</td>
+<td align="right">1.20e+03</td>
+<td align="right">5000.22</td>
+<td align="right">8.00e+01</td>
+<td align="right">7.50e+02</td>
+<td align="right">1.00e+03</td>
+<td align="right">1.36e+03</td>
+<td align="right">9.00e+05</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">room_in_apt</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.00e+00</td>
+<td align="right">0.04</td>
+<td align="right">0.00e+00</td>
+<td align="right">0.00e+00</td>
+<td align="right">0.00e+00</td>
+<td align="right">0.00e+00</td>
+<td align="right">1.00e+00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">lat</td>
+<td align="right">193145</td>
+<td align="right">0.04</td>
+<td align="right">3.77e+01</td>
+<td align="right">0.35</td>
+<td align="right">3.36e+01</td>
+<td align="right">3.74e+01</td>
+<td align="right">3.78e+01</td>
+<td align="right">3.78e+01</td>
+<td align="right">4.04e+01</td>
+<td align="left">▁▁▅▇▁</td>
+</tr>
+<tr class="odd">
+<td align="left">lon</td>
+<td align="right">196484</td>
+<td align="right">0.02</td>
+<td align="right">-1.22e+02</td>
+<td align="right">0.78</td>
+<td align="right">-1.23e+02</td>
+<td align="right">-1.22e+02</td>
+<td align="right">-1.22e+02</td>
+<td align="right">-1.22e+02</td>
+<td align="right">-7.42e+01</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+<p>There are two variable types - character and numeric. <code>Date</code> column should be of the date data type but it is double.Columns have missing value, <code>descr</code> has the most - 197542.</p>
+</div>
+<div id="creating-visualizations-for-the-data" class="section level2">
+<h2>Creating Visualizations for the data</h2>
+<pre class="r"><code>rent %&gt;%
+  group_by(city) %&gt;%
+  summarize(city_count = count(city)) %&gt;%
+  mutate(percent_city = city_count/sum(city_count))%&gt;%
+  slice_max(order_by = percent_city,n=20) %&gt;% #derived the top 20
+  ggplot(
+    aes(
+      x=percent_city,
+      y=fct_reorder(city,percent_city) #reordered city based on % of listings
+      )
+    ) + 
+  geom_col() +
+  scale_x_continuous(labels = scales::percent_format(),) +
+  labs(
+    title=&quot;% of Craigslist listings, 2000-2018&quot;, 
+    x = &quot;% Listings&quot;,
+    y = &quot;City&quot;) +
+  theme_bw(base_size = 14)</code></pre>
+<p><img src="/blogs/rent_files/figure-html/top_cities-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>The above plot shows the top 20 cities in terms of % of classifieds between 2000-2018. We can clearly see that San Francisco accounts for the maximum listings.</p>
+<pre class="r"><code>rent %&gt;%
+  filter(city==&quot;san francisco&quot;,beds&lt;=3) %&gt;%
+  group_by(beds,year) %&gt;%
+  summarize(median_price=median(price)) %&gt;%
+  ggplot(aes(x=year,y=median_price,color=factor(beds))) + #setting colour for no. of beds
+  geom_line() +
+  facet_wrap(~beds,ncol=4) + #ncol is used to display the graphs in one line
+  labs(
+    title = &quot;0 to 3-bed listings - San Francisco, 2000-2018&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Median price&quot;) +
+  theme_bw(base_size = 14) +
+  theme(legend.position = &quot;none&quot;) # to remove the legend</code></pre>
+<p><img src="/blogs/rent_files/figure-html/sf_median_prices-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>The above plot shows the evolution of median prices in San Francisco for 0, 1, 2, and 3 bedrooms listings.</p>
+<pre class="r"><code>top &lt;- rent %&gt;%
+      count(city) %&gt;%
+      slice_max(order_by = n, n=12) #derive the top 12 cities
+
+vec &lt;- c(top) #creating a vector of the top 12 cities
+
+rent %&gt;%
+  filter(city == vec$city, beds==1) %&gt;% #filtering the cities in the vector
+  group_by(year, city) %&gt;%
+  summarise(median_price = median(price)) %&gt;%
+  ggplot(
+    top,  
+    mapping=aes(x=year, y=median_price, colour = factor(city))) +
+  geom_line() +
+  facet_wrap(~city) +
+  labs(
+    title = &quot;Rental prices for 1-bedroom flats in the Bay Area&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Median Price &quot;
+  ) +
+  theme_bw(base_size = 14) + 
+  theme(legend.position = &quot;none&quot;) </code></pre>
+<p><img src="/blogs/rent_files/figure-html/spirit_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>The above plot shows median rental prices for the top 12 cities in the Bay area.</p>
+</div>
+<div id="analysis-and-interpretation" class="section level2">
+<h2>Analysis and Interpretation</h2>
+<p>When looking at the rental prices for 1 bedroom apartments in the Bay Area, we see a clear trend for all the locations. There is a clear rise in rental prices over a period of almost 20 years (2000-2018), with certain areas seeing a larger increase than others, but most areas seeing the rent prices double. Interestingly, it seems as if major social and economic events are reflected in the rental prices. For example, there was a small dip in rental prices around 2002. This is most likely because of the dot com crash that occurred two years before, which significantly impacted Silicon Valley and the Bay Area.</p>
+<p>Similarly, a large drop can be noted around 2010 which is most likely because the continued negative effects of the financial crisis. Lastly, for some areas, with Palo Alto leading the way, we can see a sharp drop around 2015. There are no obvious external factors that can explain this drop and there for we could speculate that the large rise in prices the years before were brought back down with a correction.</p>
+</div>
