@@ -18,16 +18,6 @@ params:
         country: United Kingdom
         street: Great Portland St
         title: Address
-    form: 
-        action: "https://formspree.io/f/mbjbdenj"
-        method: "POST"
-        input:
-            - type: "text"
-              name: "NAME"
-            - type: "email"
-              name: "EMAIL"
-        textarea:
-              name: "MESSAGE"
     buttonClear: Clear
     buttonSend: Send message
     formEmail: "dgoyal.mam2023@london.edu"
