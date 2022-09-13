@@ -23,11 +23,11 @@ params:
         method: "POST"
         input:
             - type: "text"
-              placeholder: "NAME"
+              name: "NAME"
             - type: "email"
-              placeholder: "EMAIL"
+              name: "EMAIL"
         textarea:
-              placeholder: "MESSAGE"
+              name: "MESSAGE"
         input:
               type: "SEND MESSAGE"
               value: "send"
