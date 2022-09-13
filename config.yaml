@@ -28,9 +28,6 @@ params:
               name: "EMAIL"
         textarea:
               name: "MESSAGE"
-        input:
-              type: "SEND MESSAGE"
-              value: "send"
     buttonClear: Clear
     buttonSend: Send message
     formEmail: "dgoyal.mam2023@london.edu"
@@ -43,7 +40,7 @@ params:
         title: Phone
   custom_css: []
   custom_js: []
-  description: Your description
+  description:
   error404:
     heading: Page couldn't be found
     text: Please visit [this page](/)
