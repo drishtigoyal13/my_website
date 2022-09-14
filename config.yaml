@@ -76,8 +76,8 @@ params:
         url: drishti_cv.html
       - name: Projects
         url: blogs
-    #  - name: Elements
-    #    url: elements.html
+      - name: Certificates
+        url: extracurricular.html
     menu: Menu
    # subtitle: By HTML5 Up
     title: Drishti Goyal's Portfolio Website
@@ -88,7 +88,7 @@ params:
         subtitle: More about me
         title: About Me
         url: about_me
-      - image: hat.png
+      - image: career.jpg
         subtitle: More about my academic and career path
         title: Resume
         url: drishti_cv.html
@@ -104,7 +104,7 @@ params:
         subtitle: More about Project 3
         title: Animal Rescue Analysis
         url: blogs/animal
-      - image: certificate.png
+      - image: extra.jpg
         subtitle: More about certifications
         title: Extra-Curricular Certificates
         url: extracurricular.html
