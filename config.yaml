@@ -71,7 +71,7 @@ params:
       - name: Home
         url: '#'
       - name: About me
-        url: blogs/about_me
+        url: about_me
       - name: Projects
         url: blogs
     #  - name: Generic Blog
@@ -87,11 +87,11 @@ params:
       - image: taj_mahal.jpg
         subtitle: More about me
         title: About Me
-        url: blogs/about_me
+        url: about_me
       - image: hat.png
         subtitle: More about my academic and career path
         title: Resume
-        url: blogs/cv
+        url: drishti_cv.html
       - image: movie.jpg
         subtitle: More about Project 1
         title: Movies Analysis
