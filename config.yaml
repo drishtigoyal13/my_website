@@ -71,7 +71,7 @@ params:
       - name: Home
         url: '#'
       - name: About me
-        url: blogs/about_me
+        url: lol/about_me
       - name: Projects
         url: blogs
     #  - name: Generic Blog
