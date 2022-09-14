@@ -72,10 +72,10 @@ params:
         url: '#'
       - name: About me
         url: about_me
+      - name: Resume
+        url: drishti_cv.html
       - name: Projects
         url: blogs
-    #  - name: Generic Blog
-    #    url: blogs/ipsum
     #  - name: Elements
     #    url: elements.html
     menu: Menu
@@ -104,10 +104,10 @@ params:
         subtitle: More about Project 3
         title: Animal Rescue Analysis
         url: blogs/animal
-      #- image: pic06.jpg
-      #  subtitle: Feugiat Amet Tempus
-      #  title: Etiam
-      #  url: blogs/ipsum
+      - image: certificate.png
+        subtitle: More about certifications
+        title: Extra-Curricular Certificates
+        url: extracurricular.html
   two:
     buttonText: More about my Projects
     enable: yes
