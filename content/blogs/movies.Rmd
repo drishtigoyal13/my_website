@@ -133,19 +133,19 @@ This table shows the statistics for the top 15 directors who created the highest
 ```{r, gross_on_fblikes}
 
 movies %>%
-  ggplot(mapping=aes(x=gross, y=cast_facebook_likes)) +
+  ggplot(mapping=aes(x=cast_facebook_likes, y=gross)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE) + #create line of best fit
   labs(
-    title = "Facebook Likes vs Gross Earnings at Box Office",
-    x = "Gross Earnings",
-    y = "Facebook Likes received by Cast"
+    title = "Gross Earnings at Box Office vs Facebook Likes",
+    x = "Facebook Likes received by Cast",
+    y = "Gross Earnings"
   ) +
-  theme_bw(base_size = 14)
+  theme_bw(base_size = 14) +
+  scale_x_log10()
 
 ```
                                   
-There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.
+There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that this is not the case for most movies. There are however significant outliers.
 
 
 ```{r, gross_on_budget}
@@ -171,6 +171,7 @@ The scatter plot shows that there is a positive correlation between budgets and 
 ```{r, gross_on_rating}
 
 movies %>%
+  filter(genre!= "Family" & genre!= "Musical" & genre!= "Romance" & genre!= "Thriller" & genre!="Western") %>%
   ggplot(mapping=aes(x=rating, y=gross)) +
   geom_point() + 
   geom_smooth(method = "lm", se = FALSE) + #create line of best fit
@@ -184,6 +185,6 @@ movies %>%
 
 ```
                                      
-For some of the genres, like `action` and `adventure`, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like `thriller` and `western`, we don't have enough data make an educated statement of the relationship between the two variables.
+For some of the genres, like `action` and `adventure`, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal.
 
 The strange thing is that `documentary` and `sci-fi` have a declining line of best fit, which shows a slight negative correlation.

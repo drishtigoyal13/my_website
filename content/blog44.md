@@ -5,7 +5,7 @@ categories:
 date: "2017-10-31T22:42:51-05:00"
 description: Hi! I am Drishti Goyal, a Masters in Analytics and Management student at London Business School. I was born in India, raised in Malaysia and so always feel lucky to have 2 homes :)
 draft: false
-image: my_photo.jpg
+image: my_photo.jpg 
 keywords: ""
 slug: about_me
 title: About me

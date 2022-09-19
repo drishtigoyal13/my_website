@@ -84,7 +84,7 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: taj_mahal.jpg
+      - image: me.jpeg
         subtitle: More about me
         title: About Me
         url: about_me
@@ -111,8 +111,8 @@ params:
   two:
     buttonText: More about my Projects
     enable: yes
-    subtitle: "An enthusiastic individual with a genuine curiosity to learn and explore new opportunities,
-      \r\n    particularly in the tech sector.  \r\n    Possesses an analytical mindset with good problem-solving
-      skills. Dedicated to making positive contributions wherever possible."
+    subtitle: "I am an enthusiastic individual with a genuine curiosity to learn and explore new opportunities,
+      \r\n    particularly in the tech sector.  \r\n    I possess an analytical mindset with good problem-solving
+      skills, and always looking forward to making positive contributions wherever possible."
     title: More about me!
     url: blogs

@@ -371,17 +371,17 @@ movies</code></pre>
 <div id="visualizing-the-data" class="section level2">
 <h2>Visualizing the data</h2>
 <pre class="r"><code>movies %&gt;%
-  ggplot(mapping=aes(x=gross, y=cast_facebook_likes)) +
+  ggplot(mapping=aes(x=cast_facebook_likes, y=gross)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;, se = FALSE) + #create line of best fit
   labs(
-    title = &quot;Facebook Likes vs Gross Earnings at Box Office&quot;,
-    x = &quot;Gross Earnings&quot;,
-    y = &quot;Facebook Likes received by Cast&quot;
+    title = &quot;Gross Earnings at Box Office vs Facebook Likes&quot;,
+    x = &quot;Facebook Likes received by Cast&quot;,
+    y = &quot;Gross Earnings&quot;
   ) +
-  theme_bw(base_size = 14)</code></pre>
+  theme_bw(base_size = 14) +
+  scale_x_log10()</code></pre>
 <p><img src="/blogs/movies_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that there are some significant outliers and thus, there is a very slight positive correlation.</p>
+<p>There is a common assumption that the number of facebook likes depicts the popularity of the cast and hence, would also lead to more movie-goers but this scatter plot shows that this is not the case for most movies. There are however significant outliers.</p>
 <pre class="r"><code>movies %&gt;%
   ggplot(mapping=aes(x=budget, y=gross)) +
   geom_smooth(method = &quot;lm&quot;, se = FALSE) +  #create line of best fit
@@ -395,6 +395,7 @@ movies</code></pre>
 <p><img src="/blogs/movies_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" /></p>
 <p>The scatter plot shows that there is a positive correlation between budgets and gross earnings, which can be because big budgets means big money for special effects, marketing and larger distribution world-wide, which attracts more audience. Nothing can be a bigger proof of this than Avatar!</p>
 <pre class="r"><code>movies %&gt;%
+  filter(genre!= &quot;Family&quot; &amp; genre!= &quot;Musical&quot; &amp; genre!= &quot;Romance&quot; &amp; genre!= &quot;Thriller&quot; &amp; genre!=&quot;Western&quot;) %&gt;%
   ggplot(mapping=aes(x=rating, y=gross)) +
   geom_point() + 
   geom_smooth(method = &quot;lm&quot;, se = FALSE) + #create line of best fit
@@ -406,6 +407,6 @@ movies</code></pre>
   facet_wrap(~genre) +
   theme_bw(base_size = 14)</code></pre>
 <p><img src="/blogs/movies_files/figure-html/gross_on_rating-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>For some of the genres, like <code>action</code> and <code>adventure</code>, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal. However, for some genres like <code>thriller</code> and <code>western</code>, we don’t have enough data make an educated statement of the relationship between the two variables.</p>
+<p>For some of the genres, like <code>action</code> and <code>adventure</code>, high IMDB ratings correlate to higher gross earnings. This could be because action and adventure movies have a higher mass appeal.</p>
 <p>The strange thing is that <code>documentary</code> and <code>sci-fi</code> have a declining line of best fit, which shows a slight negative correlation.</p>
 </div>
