@@ -36,7 +36,7 @@ params:
   favicon: favicon.ico
   footer:
     #copyright: Company Name
-    #enable: yes
+    enable: yes
     #quicklinks:
     #   - alt: HTML5 UP
     #     text: 'Design: '
